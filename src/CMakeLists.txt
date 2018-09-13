@@ -1,0 +1,38 @@
+# src
+include_directories(${OPENMOC_ROOT}/src)
+
+#file(GLOB OPENMOC_SRC ${OPENMOC_ROOT}/src/*.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Cell.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Cmfd.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/CPUSolver.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/ExpEvaluator.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Geometry.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/LocalCoords.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/linalg.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/log.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Material.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Matrix.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Point.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/PolarQuad.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Solver.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Surface.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Timer.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Track.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/TrackGenerator.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Universe.cpp)
+list(APPEND OPENMOC_SRC ${OPENMOC_ROOT}/src/Vector.cpp)
+
+add_definitions(-DFP_PRECISION=float)
+add_definitions(-DSINGLE)
+add_definitions(-DOPENMP)
+add_definitions(-DVEC_LENGTH=8)
+add_definitions(-DVEC_ALIGNMENT=16)
+
+set(GCC_FLAGS "-O3 -ffast-math -fpic")
+add_definitions(${GCC_FLAGS})
+
+add_library(openmoc ${OPENMOC_SRC})
+
+add_executable(openmoc-dagmc openmoc-dagmc.cpp)
+target_link_libraries(openmoc-dagmc openmoc ${OpenMP_CXX_FLAGS})
+install(TARGETS openmoc-dagmc RUNTIME DESTINATION bin)
